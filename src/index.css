@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --color-burgundy: #702D32;
+  --color-burgundy-dark: #492327;
+  --color-burgundy-light: #8E3A40;
+  --color-burgundy-muted: #B75B60;
+  --color-cream: #FAF5EF;
+  --color-cream-dark: #F3ECE1;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+:root {
+  font-family: var(--font-sans);
+  background-color: #FAF5EF;
+  color: #1E293B;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth mobile touch scrolling */
+* {
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar for neat mobile experience while retaining scrollability */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 3D card flip perspective for flashcards */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* AHK.MDCAT Result Card Status Metrics Layout */
+.status-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.status-metric {
+  min-width: 0;
+  overflow: hidden;
+  padding: 10px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.status-metric-label {
+  font-size: 11px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-metric-number {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.status-metric-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
