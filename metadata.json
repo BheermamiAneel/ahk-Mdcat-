@@ -1,0 +1,6 @@
+{
+  "name": "AHK.mdcat",
+  "description": "Mobile-First MDCAT Preparation Platform. Your Medical Journey Starts Here.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

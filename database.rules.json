@@ -1,0 +1,57 @@
+{
+  "rules": {
+    "presence": {
+      ".read": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')",
+      "sessions": {
+        "$uid": {
+          "$sessionId": {
+            ".write": "auth != null && auth.uid === $uid"
+          }
+        }
+      },
+      "users": {
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "room-stats": {
+      ".read": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')",
+      ".write": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')"
+    },
+    "roomStats": {
+      ".read": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')",
+      ".write": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')"
+    },
+    "commonRoomPosts": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "commonRoomAnnouncements": {
+      ".read": true,
+      ".write": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')"
+    },
+    "commonRoomReports": {
+      ".read": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')",
+      ".write": "auth != null"
+    },
+    "tests": {
+      ".read": true,
+      ".write": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')"
+    },
+    "testAttempts": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')",
+        ".write": "auth != null && (auth.uid === $uid || root.child('admins').child(auth.uid).exists() || auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')"
+      }
+    },
+    "admins": {
+      ".read": "auth != null",
+      ".write": "auth != null && (auth.token.email == 'bheermanianeel@gmail.com' || auth.token.email == 'aneelbheermani@gmail.com')"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "projectId": "ahk-mdcat-web",
+  "appId": "1:724138724968:web:9050c0f0193a5bf542b5dd",
+  "apiKey": "AIzaSyC2_WIKOmyDr-BZXFrY6kGYcqcWD5tInuk",
+  "authDomain": "ahk-mdcat-web.firebaseapp.com",
+  "databaseURL": "https://ahk-mdcat-web-default-rtdb.firebaseio.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "ahk-mdcat-web.firebasestorage.app",
+  "messagingSenderId": "724138724968",
+  "measurementId": "G-8GQXJ3MYJ5"
+}

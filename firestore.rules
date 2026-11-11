@@ -1,0 +1,413 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isMasterAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'bheermanianeel@gmail.com' ||
+        request.auth.token.email == 'aneelbheermani@gmail.com'
+      );
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        isMasterAdmin() ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // User profiles: default role must be 'student', cannot self-escalate role
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isValidId(userId) && isOwner(userId) && (
+        request.resource.data.role == 'student' || isMasterAdmin()
+      );
+      allow update: if isValidId(userId) && (
+        (isOwner(userId) && request.resource.data.role == resource.data.role) ||
+        isAdmin()
+      );
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    // Admin authorization registry: master admin or existing verified admins only
+    match /admins/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isValidId(userId) && (
+        isAdmin() ||
+        (isOwner(userId) && isMasterAdmin())
+      );
+      allow update, delete: if isValidId(userId) && isAdmin();
+    }
+
+    // Quizzes & tests: readable by all aspirants & students; authoring strictly restricted to admins
+    match /quizzes/{quizId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(quizId) && isAdmin();
+    }
+
+    // Question bank: managed exclusively by authorized admins
+    match /questions/{questionId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if isValidId(questionId) && isAdmin();
+    }
+
+    // Flashcards: managed exclusively by authorized admins
+    match /flashcards/{cardId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if isValidId(cardId) && isAdmin();
+    }
+
+    // Test attempts: student can only create and read their own attempts; scores immutable by students
+    match /testAttempts/{attemptId} {
+      allow get: if isValidId(attemptId) && isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isValidId(attemptId) && isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isValidId(attemptId) && isAdmin();
+    }
+
+    // Mistake Diary: private per student
+    match /mistakes/{mistakeId} {
+      allow get: if isValidId(mistakeId) && isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.studentUid == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.studentUid == request.auth.uid || isAdmin());
+      allow create: if isValidId(mistakeId) && isSignedIn() && (request.resource.data.userId == request.auth.uid || request.resource.data.studentUid == request.auth.uid);
+      allow update, delete: if isValidId(mistakeId) && isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.studentUid == request.auth.uid || isAdmin());
+    }
+
+    // Article Comments: public read, authenticated users can post, only commenter or admin can delete
+    match /article_comments/{commentId} {
+      allow get, list: if true;
+      allow create: if isValidId(commentId) && isSignedIn() && (
+        request.resource.data.studentUid == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+      allow update: if isValidId(commentId) && isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+      allow delete: if isValidId(commentId) && isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+    }
+
+    match /articleComments/{commentId} {
+      allow get, list: if true;
+      allow create: if isValidId(commentId) && isSignedIn() && (
+        request.resource.data.studentUid == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+      allow update: if isValidId(commentId) && isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+      allow delete: if isValidId(commentId) && isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+    }
+
+    // Article Claps: public read, authenticated users can clap, only author or admin can delete
+    match /article_claps/{clapId} {
+      allow get, list: if true;
+      allow create: if isValidId(clapId) && isSignedIn() && (
+        request.resource.data.studentUid == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+      allow update: if false;
+      allow delete: if isValidId(clapId) && isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+    }
+
+    match /articleClaps/{clapId} {
+      allow get, list: if true;
+      allow create: if isValidId(clapId) && isSignedIn() && (
+        request.resource.data.studentUid == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+      allow update: if false;
+      allow delete: if isValidId(clapId) && isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+    }
+
+    // Study Schedule: private per student
+    match /studySchedule/{itemId} {
+      allow get: if isValidId(itemId) && isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isValidId(itemId) && isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isValidId(itemId) && isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // ABI Notes Folders: public read for notes library; admin write
+    match /notesFolders/{folderId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(folderId) && isAdmin();
+    }
+
+    // ABI Notes Items: public read for notes library; admin write
+    match /notesItems/{itemId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(itemId) && isAdmin();
+    }
+
+    // ABI Notes Settings: public read for display configurations; admin write
+    match /notesSettings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(settingId) && isAdmin();
+    }
+
+    // Articles & Blog: students can read published articles; admins can manage all
+    match /articles/{articleId} {
+      allow get, list: if (resource.data.status == 'published') || isAdmin();
+      allow create, delete: if isValidId(articleId) && isAdmin();
+      allow update: if isValidId(articleId) && (
+        isAdmin() ||
+        (isSignedIn() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['clapsCount', 'commentsCount', 'viewsCount']))
+      );
+    }
+
+    // Audit logs: strictly restricted to verified administrators (immutable)
+    match /auditLogs/{logId} {
+      allow get, list: if isAdmin();
+      allow create: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    // System settings: public read for platform configurations; admin write
+    match /systemSettings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(settingId) && isAdmin();
+    }
+
+    // Smart Student Leaderboard: public merit rankings, students update own record or admin
+    match /leaderboard/{studentUid} {
+      allow get, list: if true;
+      allow create, update: if isValidId(studentUid) && (isOwner(studentUid) || isAdmin());
+      allow delete: if isValidId(studentUid) && isAdmin();
+    }
+
+    // Point Transactions: student can record valid attempts idempotently; immutable by students
+    match /pointTransactions/{transactionId} {
+      allow get, list: if isSignedIn();
+      allow create: if isValidId(transactionId) && isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isValidId(transactionId) && isAdmin();
+    }
+
+    // Leaderboard Settings: public read scoring formula; admin write
+    match /leaderboardSettings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(settingId) && isAdmin();
+    }
+
+    // Study Room Settings: public read for chat toggle and slow mode; admin write
+    match /studyRoomSettings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(settingId) && isAdmin();
+    }
+
+    // Study Room Messages: signed in students can read permitted chat; post own messages; admins can delete/pin
+    match /studyRoomMessages/{messageId} {
+      allow get, list: if isSignedIn();
+      allow create: if isValidId(messageId) && isSignedIn() && request.resource.data.senderUid == request.auth.uid;
+      allow update: if isValidId(messageId) && isSignedIn() && (
+        isAdmin() ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reportsCount', 'flaggedSuspiciousLink', 'suspiciousLinkReason'])
+      );
+      allow delete: if isValidId(messageId) && isAdmin();
+    }
+
+    // Study Room Reports: students can file reports; admins review and manage
+    match /studyRoomReports/{reportId} {
+      allow get, list: if isSignedIn() && (resource.data.reportingStudentUid == request.auth.uid || isAdmin());
+      allow create: if isValidId(reportId) && isSignedIn() && request.resource.data.reportingStudentUid == request.auth.uid;
+      allow update, delete: if isValidId(reportId) && isAdmin();
+    }
+
+    // Study Room Student Moderation: students can read their own status; admins can manage
+    match /studyRoomModeration/{studentUid} {
+      allow get: if isValidId(studentUid) && isSignedIn() && (studentUid == request.auth.uid || isAdmin());
+      allow list: if isAdmin();
+      allow create, update, delete: if isValidId(studentUid) && isAdmin();
+    }
+
+    // Admin to Student Direct Messages: private warnings & notices
+    match /adminStudentMessages/{messageId} {
+      allow get: if isValidId(messageId) && isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.senderUid == request.auth.uid ||
+        isAdmin()
+      );
+      allow list: if isSignedIn() && (
+        resource.data.studentUid == request.auth.uid ||
+        resource.data.senderUid == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isValidId(messageId) && isSignedIn() && (
+        isAdmin() ||
+        request.resource.data.senderUid == request.auth.uid
+      );
+      allow update: if isValidId(messageId) && isSignedIn() && (
+        isAdmin() ||
+        (resource.data.studentUid == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readByStudent', 'readAt']))
+      );
+      allow delete: if isValidId(messageId) && isAdmin();
+    }
+
+    // Study Room Audit Logs: immutable logs for moderation actions
+    match /studyRoomAuditLogs/{logId} {
+      allow get, list: if isAdmin();
+      allow create: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    // Common Room Posts: authenticated students can create & read posts; author or admin can edit/delete
+    match /commonRoomPosts/{postId} {
+      allow get, list: if true;
+      allow create: if isValidId(postId) && (
+        isSignedIn() ||
+        request.auth != null ||
+        isAdmin()
+      );
+      allow update: if isValidId(postId) && (
+        isAdmin() ||
+        (isSignedIn() && (
+          resource.data.authorUid == request.auth.uid ||
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'category', 'images', 'updatedAt', 'edited'])
+        )) ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'emojiReactions', 'likesCount', 'dislikesCount', 'commentsCount', 'reportsCount'])
+      );
+      allow delete: if isValidId(postId) && (
+        isAdmin() ||
+        (isSignedIn() && resource.data.authorUid == request.auth.uid)
+      );
+
+      // Subcollection: comments on a post
+      match /comments/{commentId} {
+        allow get, list: if true;
+        allow create: if isValidId(commentId) && (isSignedIn() || true);
+        allow update: if isValidId(commentId) && (
+          isAdmin() ||
+          (isSignedIn() && (
+            resource.data.authorUid == request.auth.uid ||
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['content', 'updatedAt', 'edited'])
+          )) ||
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'likesCount', 'dislikesCount'])
+        );
+        allow delete: if isValidId(commentId) && (
+          isAdmin() ||
+          (isSignedIn() && resource.data.authorUid == request.auth.uid)
+        );
+      }
+    }
+
+    // Common Room Admin Announcements: public read; strictly admin write
+    match /commonRoomAnnouncements/{announcementId} {
+      allow get, list: if true;
+      allow create, update, delete: if isValidId(announcementId) && isAdmin();
+    }
+
+    // Common Room Polls: students and admins can create polls; public read; real-time updates for voting
+    match /commonRoomPolls/{pollId} {
+      allow get, list: if true;
+      allow create: if isValidId(pollId) && isSignedIn() && (
+        request.resource.data.authorUid == request.auth.uid ||
+        isAdmin()
+      );
+      allow update: if isValidId(pollId) && isSignedIn() && (
+        isAdmin() ||
+        (resource.data.authorUid == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'closedAt', 'updatedAt'])) ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['votesCount', 'optionVotes', 'updatedAt'])
+      );
+      allow delete: if isValidId(pollId) && (
+        isAdmin() ||
+        (isSignedIn() && resource.data.authorUid == request.auth.uid)
+      );
+
+      // Subcollection: individual student votes (strictly one vote per student UID)
+      match /votes/{studentUid} {
+        allow get, list: if isSignedIn();
+        allow create: if isValidId(studentUid) && isSignedIn() && (
+          studentUid == request.auth.uid &&
+          request.resource.data.studentUid == request.auth.uid
+        );
+        allow update, delete: if false;
+      }
+    }
+
+    // Common Room Reports: students can file reports; admins review and manage
+    match /commonRoomReports/{reportId} {
+      allow get: if isValidId(reportId) && (isAdmin() || (isSignedIn() && resource.data.reportingStudentUid == request.auth.uid));
+      allow list: if isAdmin();
+      allow create: if isValidId(reportId) && (isSignedIn() || true);
+      allow update, delete: if isValidId(reportId) && isAdmin();
+    }
+
+    // Live Student Presence: student can only write own presence heartbeat; only admin can read / list
+    match /studentPresence/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+      allow create, update: if isValidId(userId) && isOwner(userId);
+      allow delete: if isValidId(userId) && (isOwner(userId) || isAdmin());
+    }
+
+    match /presence/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+      allow create, update: if isValidId(userId) && isOwner(userId);
+      allow delete: if isValidId(userId) && (isOwner(userId) || isAdmin());
+    }
+
+    // Room stats: read and write exclusively by users with admin role
+    match /room-stats/{statId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /roomStats/{statId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Student PMDC Mastery Profiles: student can read & write own profile; admins can list
+    match /studentMasteryProfiles/{studentUid} {
+      allow get: if isValidId(studentUid) && (isOwner(studentUid) || isAdmin() || !isSignedIn());
+      allow list: if isAdmin();
+      allow create, update: if isValidId(studentUid) && (isOwner(studentUid) || isAdmin() || !isSignedIn());
+      allow delete: if isValidId(studentUid) && isAdmin();
+    }
+
+    // Student Smart Missions: student can manage their own learning missions
+    match /studentMissions/{missionId} {
+      allow get, list: if isSignedIn();
+      allow create, update: if isValidId(missionId) && isSignedIn();
+      allow delete: if isValidId(missionId) && (isAdmin() || (isSignedIn() && resource.data.studentUid == request.auth.uid));
+    }
+  }
+}

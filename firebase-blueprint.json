@@ -1,0 +1,371 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with role and progress statistics",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 254 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "enum": ["student", "admin"] },
+        "streakDays": { "type": "number" },
+        "targetScore": { "type": "number" },
+        "completedTopics": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Authorized administrator registry document",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 254 },
+        "role": { "type": "string", "enum": ["admin"] },
+        "authorizedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Question": {
+      "title": "Question",
+      "description": "PMDC MDCAT multiple choice question",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "subject": { "type": "string", "enum": ["Biology", "Chemistry", "Physics", "English", "Logical Reasoning"] },
+        "chapter": { "type": "string", "maxLength": 120 },
+        "classLevel": { "type": "string", "enum": ["Class 11", "Class 12"] },
+        "questionText": { "type": "string", "maxLength": 2000 },
+        "options": { "type": "array" },
+        "correctIndex": { "type": "number" },
+        "explanation": { "type": "string", "maxLength": 2000 },
+        "difficulty": { "type": "string", "enum": ["Easy", "Medium", "Hard"] },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "subject", "chapter", "questionText", "options", "correctIndex", "explanation"]
+    },
+    "TestAttempt": {
+      "title": "TestAttempt",
+      "description": "Mock or practice test results and score breakdown",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "testTitle": { "type": "string", "maxLength": 150 },
+        "score": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "correctCount": { "type": "number" },
+        "wrongCount": { "type": "number" },
+        "skippedCount": { "type": "number" },
+        "completedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "testTitle", "score", "totalQuestions", "correctCount", "wrongCount", "completedAt"]
+    },
+    "Mistake": {
+      "title": "Mistake",
+      "description": "Mistake Diary record for student review",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "questionId": { "type": "string", "maxLength": 128 },
+        "subject": { "type": "string", "maxLength": 60 },
+        "chapter": { "type": "string", "maxLength": 120 },
+        "questionText": { "type": "string", "maxLength": 2000 },
+        "selectedAnswer": { "type": "string", "maxLength": 500 },
+        "correctAnswer": { "type": "string", "maxLength": 500 },
+        "explanation": { "type": "string", "maxLength": 2000 },
+        "reviewedCount": { "type": "number" },
+        "mastered": { "type": "boolean" },
+        "recordedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "questionId", "subject", "questionText", "selectedAnswer", "correctAnswer", "recordedAt"]
+    },
+    "Flashcard": {
+      "title": "Flashcard",
+      "description": "Terminology flashcard for quick active recall",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "subject": { "type": "string", "maxLength": 60 },
+        "chapter": { "type": "string", "maxLength": 120 },
+        "term": { "type": "string", "maxLength": 200 },
+        "definition": { "type": "string", "maxLength": 1000 },
+        "authorId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "subject", "chapter", "term", "definition"]
+    },
+    "StudyScheduleItem": {
+      "title": "StudyScheduleItem",
+      "description": "Planner event item for a student",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "timeSlot": { "type": "string", "maxLength": 20 },
+        "taskTitle": { "type": "string", "maxLength": 150 },
+        "subject": { "type": "string", "maxLength": 60 },
+        "completed": { "boolean": true }
+      },
+      "required": ["id", "userId", "date", "timeSlot", "taskTitle", "completed"]
+    },
+    "QuizTest": {
+      "title": "QuizTest",
+      "description": "PMDC MDCAT practice or mock quiz test",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 150 },
+        "instructions": { "type": "string", "maxLength": 2000 },
+        "subject": { "type": "string", "maxLength": 60 },
+        "chapter": { "type": "string", "maxLength": 120 },
+        "topicId": { "type": "string", "maxLength": 128 },
+        "durationMinutes": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "marksPerQuestion": { "type": "number" },
+        "negativeMarking": { "type": "boolean" },
+        "negativeMarks": { "type": "number" },
+        "status": { "type": "string", "enum": ["draft", "published", "archived"] },
+        "isPublished": { "type": "boolean" },
+        "publishedAt": { "type": "string" },
+        "resultVisibility": { "type": "string", "enum": ["immediate", "after_deadline", "admin_only"] },
+        "questions": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "title", "subject", "durationMinutes", "totalQuestions", "status", "questions"]
+    },
+    "ArticleComment": {
+      "title": "ArticleComment",
+      "description": "Student comments and discussions under published articles",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "articleId": { "type": "string", "maxLength": 128 },
+        "articleSlug": { "type": "string", "maxLength": 150 },
+        "studentUid": { "type": "string", "maxLength": 128 },
+        "studentName": { "type": "string", "maxLength": 100 },
+        "studentEmail": { "type": "string", "maxLength": 254 },
+        "content": { "type": "string", "maxLength": 3000 },
+        "createdAt": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "articleId", "studentUid", "content"]
+    },
+    "ArticleClap": {
+      "title": "ArticleClap",
+      "description": "Single-clap endorsement record per student per article",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "articleId": { "type": "string", "maxLength": 128 },
+        "articleSlug": { "type": "string", "maxLength": 150 },
+        "studentUid": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "articleId", "studentUid"]
+    },
+    "CommonRoomPost": {
+      "title": "CommonRoomPost",
+      "description": "Social discussion post in AHK Common Room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "authorUid": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorEmail": { "type": "string", "maxLength": 254 },
+        "category": { "type": "string", "maxLength": 50 },
+        "content": { "type": "string", "maxLength": 5000 },
+        "likesCount": { "type": "number" },
+        "dislikesCount": { "type": "number" },
+        "commentsCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "authorUid", "authorName", "category", "content", "createdAt"]
+    },
+    "CommonRoomAnnouncement": {
+      "title": "CommonRoomAnnouncement",
+      "description": "Official admin announcements in Common Room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "content": { "type": "string", "maxLength": 5000 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "content", "authorName", "createdAt"]
+    },
+    "StudentPresence": {
+      "title": "StudentPresence",
+      "description": "Authenticated student live presence record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "online": { "type": "boolean" },
+        "inCommonRoom": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "online"]
+    },
+    "CommonRoomPoll": {
+      "title": "CommonRoomPoll",
+      "description": "Live student & admin polls in Common Room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "question": { "type": "string", "maxLength": 400 },
+        "options": { "type": "array" },
+        "optionVotes": { "type": "array" },
+        "votesCount": { "type": "number" },
+        "authorUid": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorRole": { "type": "string", "enum": ["student", "admin"] },
+        "status": { "type": "string", "enum": ["active", "closed"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "question", "options", "votesCount", "authorUid", "status", "createdAt"]
+    },
+    "CommonRoomPollVote": {
+      "title": "CommonRoomPollVote",
+      "description": "Single vote record per student for a Common Room poll",
+      "type": "object",
+      "properties": {
+        "studentUid": { "type": "string", "maxLength": 128 },
+        "optionIndex": { "type": "number" },
+        "votedAt": { "type": "string" }
+      },
+      "required": ["studentUid", "optionIndex", "votedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Student and user profiles"
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Protected admin collection"
+    },
+    "/quizzes/{quizId}": {
+      "schema": { "$ref": "#/entities/QuizTest" },
+      "description": "Published and draft tests repository"
+    },
+    "/questions/{questionId}": {
+      "schema": { "$ref": "#/entities/Question" },
+      "description": "PMDC question bank repository"
+    },
+    "/testAttempts/{attemptId}": {
+      "schema": { "$ref": "#/entities/TestAttempt" },
+      "description": "Logged student test attempts"
+    },
+    "/mistakes/{mistakeId}": {
+      "schema": { "$ref": "#/entities/Mistake" },
+      "description": "Mistake diary error records"
+    },
+    "/flashcards/{cardId}": {
+      "schema": { "$ref": "#/entities/Flashcard" },
+      "description": "Interactive revision flashcard repository"
+    },
+    "/studySchedule/{itemId}": {
+      "schema": { "$ref": "#/entities/StudyScheduleItem" },
+      "description": "Student calendar study schedule tasks"
+    },
+    "/article_comments/{commentId}": {
+      "schema": { "$ref": "#/entities/ArticleComment" },
+      "description": "Article student discussion comments"
+    },
+    "/articleComments/{commentId}": {
+      "schema": { "$ref": "#/entities/ArticleComment" },
+      "description": "Article student discussion comments (camelCase alias)"
+    },
+    "/article_claps/{clapId}": {
+      "schema": { "$ref": "#/entities/ArticleClap" },
+      "description": "Article student applause records"
+    },
+    "/articleClaps/{clapId}": {
+      "schema": { "$ref": "#/entities/ArticleClap" },
+      "description": "Article student applause records (camelCase alias)"
+    },
+    "/commonRoomPosts/{postId}": {
+      "schema": { "$ref": "#/entities/CommonRoomPost" },
+      "description": "Student community posts in Common Room"
+    },
+    "/commonRoomAnnouncements/{announcementId}": {
+      "schema": { "$ref": "#/entities/CommonRoomAnnouncement" },
+      "description": "Official admin announcements in Common Room"
+    },
+    "/commonRoomPolls/{pollId}": {
+      "schema": { "$ref": "#/entities/CommonRoomPoll" },
+      "description": "Interactive student & admin polls in Common Room"
+    },
+    "/commonRoomPolls/{pollId}/votes/{studentUid}": {
+      "schema": { "$ref": "#/entities/CommonRoomPollVote" },
+      "description": "Single vote per student on Common Room poll"
+    },
+    "/studentPresence/{userId}": {
+      "schema": { "$ref": "#/entities/StudentPresence" },
+      "description": "Real-time student presence records"
+    },
+    "/presence/{userId}": {
+      "schema": { "$ref": "#/entities/StudentPresence" },
+      "description": "Real-time student presence records"
+    },
+    "/room-stats/{statId}": {
+      "schema": {
+        "title": "RoomStats",
+        "type": "object",
+        "description": "Aggregated Common Room presence statistics",
+        "properties": {
+          "onlineCount": { "type": "number" },
+          "activeInCommonRoom": { "type": "number" },
+          "updatedAt": { "type": "string" }
+        }
+      },
+      "description": "Admin-only aggregated room statistics"
+    },
+    "/studentMasteryProfiles/{studentUid}": {
+      "schema": {
+        "title": "StudentMasteryProfile",
+        "type": "object",
+        "description": "PMDC 2026 unified student mastery profile and subtopic evidence",
+        "properties": {
+          "studentUid": { "type": "string", "maxLength": 128 },
+          "updatedAt": { "type": "string" },
+          "overallAccuracy": { "type": "number" },
+          "totalTestsCompleted": { "type": "number" },
+          "overallDistinctMcqsAssessed": { "type": "number" }
+        },
+        "required": ["studentUid", "updatedAt"]
+      },
+      "description": "Deduplicated subtopic mastery evidence and readiness score"
+    },
+    "/studentMissions/{missionId}": {
+      "schema": {
+        "title": "SmartMission",
+        "type": "object",
+        "description": "Adaptive PMDC recovery or challenge mission for student",
+        "properties": {
+          "id": { "type": "string", "maxLength": 128 },
+          "studentUid": { "type": "string", "maxLength": 128 },
+          "subject": { "type": "string" },
+          "chapter": { "type": "string" },
+          "subtopic": { "type": "string" },
+          "missionTitle": { "type": "string" },
+          "priority": { "type": "string", "enum": ["Critical", "High", "Medium", "Maintenance"] },
+          "status": { "type": "string", "enum": ["pending", "in_progress", "completed"] },
+          "createdAt": { "type": "string" }
+        },
+        "required": ["id", "studentUid", "missionTitle", "priority", "status"]
+      },
+      "description": "Personalized learning missions assigned by the test intelligence engine"
+    }
+  }
+}
