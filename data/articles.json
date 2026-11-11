@@ -1,0 +1,62 @@
+[
+  {
+    "id": "art-mdcat-biomolecules-01",
+    "title": "Mastering PMDC MDCAT Biology: 7 High-Yield Biomolecules Principles",
+    "slug": "mastering-pmdc-mdcat-biology-biomolecules",
+    "shortDescription": "Core conceptual rules for solving MDCAT questions on carbohydrates, peptide linkages, lipid classifications, and enzyme kinetics without confusion.",
+    "category": "Biology",
+    "featuredImageUrl": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80",
+    "featuredImageCaption": "Molecular structures and biochemical pathways in PMDC MDCAT Biology",
+    "featuredImageAlt": "Biomolecules molecular models and laboratory flasks",
+    "content": "<h2>1. Reducing vs Non-Reducing Sugars Trap</h2>\n<p>In almost every PMDC MDCAT session, students lose easy marks by confusing <strong>Maltose</strong> with <strong>Sucrose</strong>. Remember the golden rule: Maltose, Lactose, and all monosaccharides (Glucose, Fructose, Galactose) possess free anomeric hemiacetal/hemiketal groups that reduce Fehling's or Benedict's solution.</p>\n<blockquote>Sucrose is non-reducing because both anomeric carbons (C1 of alpha-glucose and C2 of beta-fructose) participate directly in the glycosidic bond.</blockquote>\n\n<h2>2. Primary vs Quaternary Protein Architecture</h2>\n<p>Peptide bonds maintain primary structure, hydrogen bonds hold secondary alpha-helices and beta-sheets, while disulfide bridges (covalent bonds between cysteine residues) stabilize tertiary and quaternary shapes.</p>\n<p>Hemoglobin is a classic quaternary oligomer composed of four polypeptide chains (2 alpha and 2 beta) coordinated around four iron-containing heme prosthetic groups.</p>\n\n<h2>3. Enzyme Kinetics: Competitive vs Non-Competitive Inhibition</h2>\n<p>Keep these kinetic shifts clear:</p>\n<ul>\n  <li><strong>Competitive Inhibitors:</strong> Resemble the substrate, bind to the active site, increase Km (lower apparent affinity), but <em>Vmax remains unchanged</em> when substrate concentration is saturated.</li>\n  <li><strong>Non-Competitive Inhibitors:</strong> Bind to an allosteric site, decrease Vmax, while Km remains unchanged.</li>\n</ul>\n\n<h2>4. Phospholipids & Amphipathic Cell Membranes</h2>\n<p>Phospholipids consist of a glycerol backbone linked to two hydrophobic fatty acid tails and a hydrophilic phosphate head group. In aqueous environments, they spontaneously assemble into lipid bilayers that form the structural foundation of biological membranes.</p>",
+    "status": "published",
+    "author": {
+      "uid": "faculty-pmdc",
+      "name": "AHK Academic Faculty",
+      "email": "faculty@ahkmdcat.pk",
+      "role": "admin"
+    },
+    "readingTimeMinutes": 4,
+    "tags": [
+      "Biomolecules",
+      "Enzymes",
+      "PMDC 2026",
+      "High-Yield"
+    ],
+    "viewsCount": 685,
+    "createdAt": "2026-10-25T10:00:00.000Z",
+    "updatedAt": "2026-10-26T12:00:00.000Z",
+    "publishedAt": "2026-10-26T12:00:00.000Z"
+  },
+  {
+    "id": "art-admissions-guide-01",
+    "title": "Complete Sindh & Punjab Medical Admissions Guide 2026: Merit Formula & Documents",
+    "slug": "complete-sindh-punjab-medical-admissions-guide-2026",
+    "shortDescription": "Step-by-step breakdown of the official aggregate formula (50% MDCAT, 40% F.Sc, 10% Matric), mandatory domicile criteria, and seat quotas.",
+    "category": "Medical Admissions",
+    "featuredImageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
+    "featuredImageCaption": "Medical college admissions and stethoscope on document desk",
+    "featuredImageAlt": "Medical college admission checklist and stethoscope",
+    "content": "<h2>1. The Official PMDC Aggregate Calculation Formula</h2>\n<p>Under current PMDC admission regulations, government and private medical college merit in Pakistan is calculated strictly using the 50:40:10 weighting formula:</p>\n<ul>\n  <li><strong>MDCAT Score:</strong> 50% weighting (Marks Obtained / Total MDCAT Marks × 50)</li>\n  <li><strong>F.Sc Pre-Medical / HSSC:</strong> 40% weighting (Marks Obtained / Total HSSC Marks × 40)</li>\n  <li><strong>Matriculation / SSC:</strong> 10% weighting (Marks Obtained / Total SSC × 10)</li>\n</ul>\n\n<h2>2. Mandatory Documents Checklist</h2>\n<p>Ensure you have original and attested copies of each of the following ready before admission portal deadlines:</p>\n<ul>\n  <li>Official PMDC MDCAT Result Card with QR Code verification</li>\n  <li>F.Sc (Pre-Medical) Original Marks Sheet / Sanad</li>\n  <li>Matriculation Certificate with Date of Birth verification</li>\n  <li>Permanent Residence Certificate (PRC / Form C) and Domicile of Candidate</li>\n  <li>Candidate CNIC / Smart B-Form and Father's/Guardian's CNIC</li>\n  <li>Recent passport-sized photographs with blue background</li>\n</ul>\n\n<h2>3. District Quota vs Open Merit Seats</h2>\n<p>Candidates applying in Sindh (DUHS, SMBBMU, LUMHS) and Punjab (UHS) must pay strict attention to District Merit vs Provincial Open Merit quotas. Always select your preference list carefully during the admission portal window.</p>",
+    "status": "published",
+    "author": {
+      "uid": "faculty-pmdc",
+      "name": "AHK Admissions Advisory",
+      "email": "admissions@ahkmdcat.pk",
+      "role": "admin"
+    },
+    "readingTimeMinutes": 5,
+    "tags": [
+      "Admissions",
+      "Merit Formula",
+      "Sindh",
+      "Punjab",
+      "MBBS",
+      "BDS"
+    ],
+    "viewsCount": 1140,
+    "createdAt": "2026-10-24T09:00:00.000Z",
+    "updatedAt": "2026-10-26T14:00:00.000Z",
+    "publishedAt": "2026-10-26T14:00:00.000Z"
+  }
+]

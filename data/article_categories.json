@@ -1,0 +1,110 @@
+[
+  {
+    "id": "cat-research-science",
+    "name": "Research & Science",
+    "slug": "research-science",
+    "description": "Evidence-based cognitive science, memory retention experiments, and scientific breakthroughs for PMDC MDCAT.",
+    "icon": "Microscope",
+    "color": "#702D32",
+    "order": 1,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-mdcat-roadmaps",
+    "name": "MDCAT Preparation Roadmaps",
+    "slug": "mdcat-preparation-roadmaps",
+    "description": "Complete month-by-month and week-by-week study blueprints, milestone checklists, and aggregate targets.",
+    "icon": "Compass",
+    "color": "#F59E0B",
+    "order": 2,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-psychology-neuroscience",
+    "name": "Psychology & Neuroscience",
+    "slug": "psychology-neuroscience",
+    "description": "Exam anxiety control, circadian sleep optimization, spaced retrieval, and peak cognitive performance protocols.",
+    "icon": "Brain",
+    "color": "#8B5CF6",
+    "order": 3,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-study-productivity",
+    "name": "Study Techniques & Productivity",
+    "slug": "study-techniques-productivity",
+    "description": "Pomodoro mastery, active recall drills, mistake journal analysis, and distraction-free study systems.",
+    "icon": "Sparkles",
+    "color": "#10B981",
+    "order": 4,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-medical-careers",
+    "name": "Medical Careers & Opportunities",
+    "slug": "medical-careers-opportunities",
+    "description": "MBBS vs BDS pathways, provincial medical colleges, military cadet colleges, and overseas residency insights.",
+    "icon": "GraduationCap",
+    "color": "#3B82F6",
+    "order": 5,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-biology",
+    "name": "Biology",
+    "slug": "biology",
+    "description": "High-yield PMDC biology chapters, cellular structures, genetics, and biochemical pathways.",
+    "icon": "Dna",
+    "color": "#059669",
+    "order": 6,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-chemistry",
+    "name": "Chemistry",
+    "slug": "chemistry",
+    "description": "Organic reaction mechanisms, stoichiometry formulas, and periodic trends.",
+    "icon": "FlaskConical",
+    "color": "#D97706",
+    "order": 7,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-physics",
+    "name": "Physics",
+    "slug": "physics",
+    "description": "Formula sheets, vector kinematics, electromagnetism, and modern physics shortcuts.",
+    "icon": "Zap",
+    "color": "#DC2626",
+    "order": 8,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  },
+  {
+    "id": "cat-medical-admissions",
+    "name": "Medical Admissions",
+    "slug": "medical-admissions",
+    "description": "Sindh, Punjab, KPK, and Federal aggregate calculation guides, domicile rules, and seat quota details.",
+    "icon": "FileCheck",
+    "color": "#492327",
+    "order": 9,
+    "isActive": true,
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "updatedAt": "2026-10-20T10:00:00.000Z"
+  }
+]

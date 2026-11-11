@@ -1,0 +1,20 @@
+[
+  {
+    "id": "log_1793445333705_xv62",
+    "timestamp": "2026-10-31T11:15:33.705Z",
+    "action": "System Verification Passed",
+    "category": "security",
+    "adminEmail": "bheermanianeel@gmail.com"
+  },
+  {
+    "id": "log_1793445326140_3pjt",
+    "timestamp": "2026-10-31T11:15:26.140Z",
+    "action": "Changed student account status to \"active\"",
+    "category": "student_management",
+    "adminUid": "admin",
+    "adminEmail": "bheermanianeel@gmail.com",
+    "targetId": "stu-ayesha-01",
+    "targetName": "Ayesha Noor",
+    "details": "Reason: Verified by Admissions Committee"
+  }
+]
